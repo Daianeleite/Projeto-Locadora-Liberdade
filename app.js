@@ -38,3 +38,5 @@ app.use('/', clientesRoutes);
 app.listen(port, ()=>{
     console.log(`Servidor ouvindo na porta ${port}`);
 });
+
+module.exports = app;
