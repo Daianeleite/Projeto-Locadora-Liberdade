@@ -30,13 +30,13 @@ const reservaController = {
     criarReserva: async (req, res) => {
         try {
             // Extrai os dados da requisição para criação da nova reserva.
-            const { dataReserva, dataInicio, dataFim, statusReserva, id_veiculo, id_cliente } = req.body;
+            const { data_reserva, data_inicio, data_fim, status_reserva, id_veiculo_reserva, id_cliente_reserva } = req.body;
 
             // O método 'create()' do Sequelize é usado para inserir uma nova reserva no banco de dados.
-            await modelReserva.create({ dataReserva, dataInicio, dataFim, statusReserva, id_veiculo, id_cliente });
+            await modelReserva.create({ data_reserva, data_inicio, data_fim, status_reserva, id_veiculo_reserva, id_cliente_reserva });
 
             // Após a criação, o cliente é redirecionado para a rota '/listarReservas' para ver a lista atualizada de reservas.
-            res.redirect("/listarReservas");
+            res.redirect("/listarReserva");
         } catch (error) {
             // Em caso de erro, a mensagem de erro é enviada ao cliente.
             res.send("Erro ao acessar a página: " + error);
@@ -49,7 +49,7 @@ const reservaController = {
         try {
             // Extrai o 'id_reserva' dos parâmetros da URL e os dados da reserva a serem atualizados do corpo da requisição.
             const { id_reserva } = req.params;
-            const { dataReserva, dataInicio, dataFim, statusReserva, id_veiculo, id_cliente } = req.body;
+            const { data_reserva, data_inicio, data_fim, status_reserva, id_veiculo_reserva, id_cliente_reserva } = req.body;
 
             // Busca a reserva correspondente ao 'id_reserva' fornecido.
             const reserva = await modelReserva.findByPk(id_reserva);
@@ -61,7 +61,7 @@ const reservaController = {
 
             // Atualiza os dados da reserva no banco de dados com o método 'update()' do Sequelize.
             await modelReserva.update(
-                { dataReserva, dataInicio, dataFim, statusReserva, id_veiculo, id_cliente },
+                { data_reserva, data_inicio, data_fim, status_reserva, id_veiculo_reserva, id_cliente_reserva },
                 { where: { id_reserva } }
             );
 

@@ -1,17 +1,14 @@
-// models/Reserva.js
-const {sequelize} = require('../config/config');
+const { sequelize } = require('../config/config');
 const DataTypes = require('sequelize');
-
-const {modelVeiculo} = require('./modelVeiculo');
-const {modelClientes} = require('./modelClientes');
+const { modelVeiculo } = require('./modelVeiculo');
+const { modelClientes } = require('./modelClientes');
 
 const modelReserva = sequelize.define('Reserva', {
-
   id_reserva: {
     type: DataTypes.INTEGER,
-    primaryKey: true,
+    primaryKey: true, // Correção do erro de "primáriaKey" para "primaryKey"
     autoIncrement: true,
-    allowNull: false,
+    allowNull: false, // Correção do erro de "permitirNull" para "allowNull"
   },
   data_reserva: {
     type: DataTypes.DATE,
@@ -23,7 +20,7 @@ const modelReserva = sequelize.define('Reserva', {
   },
   data_fim: {
     type: DataTypes.DATE,
-    allowNull: false,
+    allowNull: false, // Correção do erro de "permitNull" para "allowNull"
   },
   status_reserva: {
     type: DataTypes.STRING(255),
@@ -31,50 +28,48 @@ const modelReserva = sequelize.define('Reserva', {
   },
   id_veiculo_reserva: {
     type: DataTypes.INTEGER,
-    allowNull: true,  // Caso você queira que possa ser nulo
-    foreignKey: true
+    allowNull: false,
+    references: {
+      model: 'Veiculos', // Nome da tabela associada
+      key: 'id_veiculos',
+    },
   },
   id_cliente_reserva: {
-    type: DataTypes.INTEGER,
-    allowNull: true,  // Caso você queira que possa ser nulo
-    foreignKey: true
+    type: DataTypes.INTEGER, // Correção de "Tipos de dados.INTEGER" para "DataTypes.INTEGER"
+    allowNull: false,
+    references: {
+      model: 'Clientes', // Nome da tabela associada
+      key: 'id_cliente',
+    },
   }
-},{
-
-  tableName: 'Reserva',  // Nome da tabela no banco de dados
-  timestamps: false,     // Desativa as colunas createdAt e updatedAt
+}, {
+  tableName: 'Reserva', // Nome da tabela no banco de dados
+  timestamps: false, // Desativa as colunas createdAt e updatedAt
 });
 
-
-// Um veículo pode ter muitas reservas
+// Relacionamentos
 modelVeiculo.hasMany(modelReserva, {
-  foreignKey: 'id_veiculo_reserva', // Campo na tabela `Reserva`
-  sourceKey: 'id_veiculos',         // Chave primária na tabela `Veiculos`
-  as: 'Reservas',
+  foreignKey: 'id_veiculo_reserva',
+  sourceKey: 'id_veiculos',
+  as: 'Reservas', // Correção para o plural de reservas, se necessário
 });
 
-// Uma reserva pertence a um veículo
 modelReserva.belongsTo(modelVeiculo, {
-  foreignKey: 'id_veiculo_reserva', // Campo na tabela `Reserva`
-  targetKey: 'id_veiculos',         // Chave primária na tabela `Veiculos`
+  foreignKey: 'id_veiculo_reserva',
+  targetKey: 'id_veiculos',
   as: 'Veiculo',
 });
 
-
-
-// Um cliente pode ter muitas reservas
 modelClientes.hasMany(modelReserva, {
-  foreignKey: 'id_cliente_reserva', // Campo na tabela `Reserva`
-  sourceKey: 'id_cliente',          // Chave primária na tabela `Clientes`
-  as: 'Reservas',
+  foreignKey: 'id_cliente_reserva',
+  sourceKey: 'id_cliente',
+  as: 'Reservas', // Correção para o plural de reservas, se necessário
 });
 
-// Uma reserva pertence a um cliente
 modelReserva.belongsTo(modelClientes, {
-  foreignKey: 'id_cliente_reserva', // Campo na tabela `Reserva`
-  targetKey: 'id_cliente',          // Chave primária na tabela `Clientes`
+  foreignKey: 'id_cliente_reserva',
+  targetKey: 'id_cliente',
   as: 'Cliente',
 });
-
 
 module.exports = { modelReserva };
