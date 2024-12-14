@@ -1,15 +1,11 @@
 const {sequelize} = require('../config/config'); //variável de conexão.
 const DataTypes = require('sequelize');
 
-const funcionario = sequelize.define('Funcionario', {
+const modelFuncionario = sequelize.define('Funcionario', {
     id_funcionario:{
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
-    },
-    nome:{
-        type: DataTypes.STRING,
-        AllowNull: false
     },
     nome_funcionario:{
         type: DataTypes.STRING,
@@ -40,4 +36,4 @@ const funcionario = sequelize.define('Funcionario', {
     timestamps: false //evita que seja criado tabelas que não estão no banco de dados.
 });
 
-module.exports = {funcionario};
+module.exports = {modelFuncionario};

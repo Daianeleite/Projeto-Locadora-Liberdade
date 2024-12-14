@@ -1,8 +1,8 @@
-const sequelize = require('../config/config'); //variável de conexão.
+const {sequelize} = require('../config/config'); //variável de conexão.
 const DataTypes = require('sequelize');
 
 // Definição do modelo de Cliente
-const Cliente = sequelize.sequelize.define('Cliente', {
+const modelClientes = sequelize.define('Cliente', {
 
     id_cliente:{
         type: DataTypes.INTEGER,
@@ -40,4 +40,4 @@ const Cliente = sequelize.sequelize.define('Cliente', {
         tableName: 'Cliente',
     timestamps: false //evita que seja criado tabelas que não estão no banco de dados.
 });
-  module.exports = {Cliente};
+  module.exports = {modelClientes};

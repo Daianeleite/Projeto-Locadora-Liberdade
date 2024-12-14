@@ -20,13 +20,13 @@ const funcionarioController = {
     criarFuncionario: async (req, res) => {
         try {
             // Extrai os dados da requisição para criação do novo funcionário.
-            const { nome, cpf, tel, email, senha, privilegio } = req.body;
+            const { nome_funcionario, cpf_funcionario, tel_funcionario, email, senha, privilegio_funcionario } = req.body;
 
             // O método 'create()' do Sequelize é usado para inserir um novo funcionário no banco de dados.
-            await modelFuncionario.create({ nome, cpf, tel, email, senha, privilegio });
+            await modelFuncionario.create({ nome_funcionario, cpf_funcionario, tel_funcionario, email, senha, privilegio_funcionario });
 
             // Após a criação, o cliente é redirecionado para a rota '/listarFuncionarios' para ver a lista atualizada de funcionários.
-            res.redirect("/listarFuncionarios");
+            res.redirect("/listarFuncionario");
         } catch (error) {
             // Em caso de erro, a mensagem de erro é enviada ao cliente.
             res.send("Erro ao acessar a página: " + error);
@@ -39,7 +39,7 @@ const funcionarioController = {
         try {
             // Extrai o 'id_funcionario' dos parâmetros da URL e os dados do funcionário a serem atualizados do corpo da requisição.
             const { id_funcionario } = req.params;
-            const { nome, cpf, tel, email, senha, privilegio } = req.body;
+            const { nome_funcionario, cpf_funcionario, tel_funcionario, email, senha, privilegio_funcionario } = req.body;
 
             // Busca o funcionário correspondente ao 'id_funcionario' fornecido.
             const funcionario = await modelFuncionario.findByPk(id_funcionario);
@@ -51,7 +51,7 @@ const funcionarioController = {
 
             // Atualiza os dados do funcionário no banco de dados com o método 'update()' do Sequelize.
             await modelFuncionario.update(
-                { nome, cpf, tel, email, senha, privilegio },
+                { nome_funcionario, cpf_funcionario, tel_funcionario, email, senha, privilegio_funcionario },
                 { where: { id_funcionario } }
             );
 

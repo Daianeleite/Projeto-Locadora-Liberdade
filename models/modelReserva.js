@@ -2,8 +2,9 @@
 const {sequelize} = require('../config/config');
 const DataTypes = require('sequelize');
 
-const modelVeiculos = sequelize.define('Veiculo');
-const modelClientes = sequelize.define('Clientes');
+const {modelVeiculo} = require('./modelVeiculo');
+const {modelClientes} = require('./modelClientes');
+
 const modelReserva = sequelize.define('Reserva', {
 
   id_reserva: {
@@ -31,11 +32,13 @@ const modelReserva = sequelize.define('Reserva', {
   id_veiculo_reserva: {
     type: DataTypes.INTEGER,
     allowNull: true,  // Caso você queira que possa ser nulo
+    foreignKey: true
   },
   id_cliente_reserva: {
     type: DataTypes.INTEGER,
     allowNull: true,  // Caso você queira que possa ser nulo
-  },
+    foreignKey: true
+  }
 },{
 
   tableName: 'Reserva',  // Nome da tabela no banco de dados
@@ -43,25 +46,35 @@ const modelReserva = sequelize.define('Reserva', {
 });
 
 
-modelReserva.hasMany(modelVeiculos, {
-  foreignKey: 'id_veiculo',
-  as: 'Veiculo'
+// Um veículo pode ter muitas reservas
+modelVeiculo.hasMany(modelReserva, {
+  foreignKey: 'id_veiculo_reserva', // Campo na tabela `Reserva`
+  sourceKey: 'id_veiculos',         // Chave primária na tabela `Veiculos`
+  as: 'Reservas',
 });
 
-modelVeiculos.belongsTo(modelReserva, {
-  foreignKey: 'id_veiculo',
-  as: 'Reserva'
+// Uma reserva pertence a um veículo
+modelReserva.belongsTo(modelVeiculo, {
+  foreignKey: 'id_veiculo_reserva', // Campo na tabela `Reserva`
+  targetKey: 'id_veiculos',         // Chave primária na tabela `Veiculos`
+  as: 'Veiculo',
 });
 
 
+
+// Um cliente pode ter muitas reservas
 modelClientes.hasMany(modelReserva, {
-  foreignKey: 'id_cliente',
-  as: 'Reserva'
+  foreignKey: 'id_cliente_reserva', // Campo na tabela `Reserva`
+  sourceKey: 'id_cliente',          // Chave primária na tabela `Clientes`
+  as: 'Reservas',
 });
 
+// Uma reserva pertence a um cliente
 modelReserva.belongsTo(modelClientes, {
-  foreignKey: 'id_cliente',
-  as: 'Cliente'
+  foreignKey: 'id_cliente_reserva', // Campo na tabela `Reserva`
+  targetKey: 'id_cliente',          // Chave primária na tabela `Clientes`
+  as: 'Cliente',
 });
+
 
 module.exports = { modelReserva };

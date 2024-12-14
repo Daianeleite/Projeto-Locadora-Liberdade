@@ -1,4 +1,6 @@
-const {modelReserva} = require("../models/modelreserva"); // Importa o modelo de reserva
+const { modelReserva } = require("../models/modelreserva"); // Importa o modelo de reserva
+const {modelVeiculo} = require('../models/modelVeiculo');
+const {modelClientes} = require('../models/modelClientes');
 
 const reservaController = {
     // Controller para coleta e envio de dados
@@ -6,7 +8,15 @@ const reservaController = {
     listarReservas: async (req, res) => {
         try {
             // Utiliza o método 'findAll()' do Sequelize para buscar todas as reservas.
-            const reservas = await modelReserva.findAll();
+            const reservas = await modelReserva.findAll({
+                include: [{
+                    model: modelVeiculo,
+                    as: 'Veiculo'
+                }, {
+                    model: modelClientes,
+                    as: 'Cliente'
+                }]
+            });
             // Envia os dados encontrados (reservas) para o cliente em formato JSON.
             res.send(reservas);
         } catch (error) {
@@ -99,5 +109,5 @@ const reservaController = {
     }
 };
 
-  // Exporta o controller para que possa ser utilizado em outros arquivos.
-  module.exports = {reservaController};
+// Exporta o controller para que possa ser utilizado em outros arquivos.
+module.exports = { reservaController };
