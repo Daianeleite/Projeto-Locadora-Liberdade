@@ -20,10 +20,10 @@ const veiculoController = {
     criarVeiculo: async (req, res) => {
         try {
             // Extrai os dados da requisição para criação do novo veículo.
-            const { modelo, marca, categoria, placa, renavan, quilometragem, ano, cor, combustivel, precoDiaria, statusDisponibilidade, dataUltimaManutencao } = req.body;
-  
+            const { modelo_veiculo, marca_veiculo, categoria_veiculo, placa, renavam, quilometragem, ano_fabricacao, cor, combustivel, preco_diaria, status_disponibilidade, data_ultima_manutencao } = req.body;
+
             // O método 'create()' do Sequelize é usado para inserir um novo veículo no banco de dados.
-            await modelVeiculo.create({ modelo, marca, categoria, placa, renavan, quilometragem, ano, cor, combustivel, precoDiaria, statusDisponibilidade, dataUltimaManutencao });
+            await modelVeiculo.create({ modelo_veiculo, marca_veiculo, categoria_veiculo, placa, renavam, quilometragem, ano_fabricacao, cor, combustivel, preco_diaria, status_disponibilidade, data_ultima_manutencao });
   
             // Após a criação, o cliente é redirecionado para a rota '/listarVeiculos' para ver a lista atualizada de veículos.
             res.redirect("/listarVeiculos");
@@ -38,11 +38,11 @@ const veiculoController = {
     editarVeiculo: async (req, res) => {
         try {
             // Extrai o 'id_veiculo' dos parâmetros da URL e os dados do veículo a serem atualizados do corpo da requisição.
-            const { id_veiculo } = req.params;
-            const { modelo, marca, categoria, placa, renavan, quilometragem, ano, cor, combustivel, precoDiaria, statusDisponibilidade, dataUltimaManutencao } = req.body;
+            const { id_veiculos } = req.params;
+            const { modelo_veiculo, marca_veiculo, categoria_veiculo, placa, renavam, quilometragem, ano_fabricacao, cor, combustivel, preco_diaria, status_disponibilidade, data_ultima_manutencao } = req.body;
   
             // Busca o veículo correspondente ao 'id_veiculo' fornecido.
-            const veiculo = await modelVeiculo.findByPk(id_veiculo);
+            const veiculo = await modelVeiculo.findByPk(id_veiculos);
   
             // Se o veículo não for encontrado, retorna uma mensagem de erro 404 (não encontrado).
             if (!veiculo) {
@@ -51,8 +51,8 @@ const veiculoController = {
   
             // Atualiza os dados do veículo no banco de dados com o método 'update()' do Sequelize.
             await modelVeiculo.update(
-                { modelo, marca, categoria, placa, renavan, quilometragem, ano, cor, combustivel, precoDiaria, statusDisponibilidade, dataUltimaManutencao },
-                { where: { id_veiculo } }
+                { modelo_veiculo, marca_veiculo, categoria_veiculo, placa, renavam, quilometragem, ano_fabricacao, cor, combustivel, preco_diaria, status_disponibilidade, data_ultima_manutencao },
+                { where: { id_veiculos } }
             );
   
             // Enviando um JSON como resposta para confirmar a atualização
@@ -68,10 +68,10 @@ const veiculoController = {
     deletarVeiculo: async (req, res) => {
         try {
             // Extrai o 'id_veiculo' dos parâmetros da URL.
-            const { id_veiculo } = req.params;
+            const { id_veiculos } = req.params;
   
             // Busca o veículo correspondente ao 'id_veiculo' fornecido.
-            const veiculo = await modelVeiculo.findByPk(id_veiculo);
+            const veiculo = await modelVeiculo.findByPk(id_veiculos);
   
             // Se o veículo não for encontrado, retorna uma mensagem de erro 404 (não encontrado).
             if (!veiculo) {
@@ -80,7 +80,7 @@ const veiculoController = {
   
             // O método 'destroy()' do Sequelize é usado para excluir o veículo do banco de dados.
             const result = await modelVeiculo.destroy({
-                where: { id_veiculo },
+                where: { id_veiculos },
             });
   
             if (result > 0) {

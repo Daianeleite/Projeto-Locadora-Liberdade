@@ -18,6 +18,7 @@ const modelVeiculo = sequelize.define('Veiculos', {
   },
   categoria_veiculo: {
     type: DataTypes.STRING,
+    allowNull: false,
   },
   placa: {
     type: DataTypes.STRING,
