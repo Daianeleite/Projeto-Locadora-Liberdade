@@ -18,7 +18,13 @@ connectToDatabase();
 
 // Middleware para parsing do corpo da requisição
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "/views")));
 // Rotas
+app.use('/', (req,res)=>{
+    const filePath = path.resolve(__dirname, 'views', 'index.html');
+  res.sendFile(filePath);
+});
+
 app.use('/', veiculoRoutes);
 app.use('/', reservasRoutes);
 app.use('/', manutencaoRoutes);
@@ -27,7 +33,7 @@ app.use('/', clientesRoutes);
 
 // Conectar ao banco de dados e iniciar o servidor
 
-app.use(express.static(path.join(__dirname, "/views")));
+
 
 app.listen(port, ()=>{
     console.log(`Servidor ouvindo na porta ${port}`);
