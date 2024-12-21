@@ -11,25 +11,24 @@ const reservasRoutes = require('./routes/routerreserva');
 const manutencaoRoutes = require('./routes/routermanutencao');
 const funcionariosRoutes = require('./routes/routerfuncionario');
 const clientesRoutes = require('./routes/routerclientes');
+const usuariorRoutes = require('./routes/routerUsuario');
 
 
 const {connectToDatabase} = require("./config/config");
+const { usuarioController } = require('./controllers/usuarioController');
 connectToDatabase();
 
 // Middleware para parsing do corpo da requisição
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "/views")));
 // Rotas
-app.use('/', (req,res)=>{
-    const filePath = path.resolve(__dirname, 'views', 'index.html');
-  res.sendFile(filePath);
-});
 
 app.use('/', veiculoRoutes);
 app.use('/', reservasRoutes);
 app.use('/', manutencaoRoutes);
 app.use('/', funcionariosRoutes);
 app.use('/', clientesRoutes);
+app.use('/', usuariorRoutes);
 
 // Conectar ao banco de dados e iniciar o servidor
 
