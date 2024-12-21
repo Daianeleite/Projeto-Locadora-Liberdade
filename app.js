@@ -1,10 +1,18 @@
 const express = require('express');
+const cors = require('cors');
 
 const app = express();
 
 const port = 3000;
 
 const path = require("path");
+
+const corsOptions ={
+  origin: "*",
+  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization'],
+  credentials: true
+};
 
 const veiculoRoutes = require('./routes/routerveiculo');
 const reservasRoutes = require('./routes/routerreserva');
@@ -16,6 +24,8 @@ const usuariorRoutes = require('./routes/routerUsuario');
 
 const {connectToDatabase} = require("./config/config");
 connectToDatabase();
+
+app.use(cors(corsOptions));
 
 // Middleware para parsing do corpo da requisição
 app.use(express.json());
