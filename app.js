@@ -34,5 +34,3 @@ app.use('/', usuariorRoutes);
 app.listen(port, ()=>{
     console.log(`Servidor ouvindo na porta ${port}`);
 });
-
-module.exports = app;
