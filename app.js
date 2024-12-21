@@ -15,7 +15,6 @@ const usuariorRoutes = require('./routes/routerUsuario');
 
 
 const {connectToDatabase} = require("./config/config");
-const { usuarioController } = require('./controllers/usuarioController');
 connectToDatabase();
 
 // Middleware para parsing do corpo da requisição
@@ -31,8 +30,6 @@ app.use('/', clientesRoutes);
 app.use('/', usuariorRoutes);
 
 // Conectar ao banco de dados e iniciar o servidor
-
-
 
 app.listen(port, ()=>{
     console.log(`Servidor ouvindo na porta ${port}`);
